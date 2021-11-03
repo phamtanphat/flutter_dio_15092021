@@ -11,6 +11,8 @@ class DioClient{
           connectTimeout: 30000,
           baseUrl: "http://api.openweathermap.org/"
       ));
+      dio!.interceptors.add(LogInterceptor(requestBody: true));
+      
     }
 
   }

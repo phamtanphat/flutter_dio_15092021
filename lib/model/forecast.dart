@@ -87,4 +87,9 @@ class Forecast {
     data['cod'] = this.cod;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Forecast{coord: $coord, weather: $weather, base: $base, main: $main, visibility: $visibility, wind: $wind, clouds: $clouds, dt: $dt, sys: $sys, timezone: $timezone, id: $id, name: $name, cod: $cod}';
+  }
 }
