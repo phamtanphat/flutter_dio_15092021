@@ -13,7 +13,7 @@ class WeatherBloc {
     _apiRequest = apiRequest;
 
     eventController.stream.listen((event) {
-      print(event.runtimeType.toString());
+
     });
 
 
