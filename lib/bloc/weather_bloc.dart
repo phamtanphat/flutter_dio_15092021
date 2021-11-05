@@ -9,8 +9,10 @@ class WeatherBloc {
 
   StreamController<WeatherEvent> eventController = StreamController();
 
-  WeatherBloc(ApiRequest apiRequest){
+  void updateApiRequest(ApiRequest apiRequest){
     _apiRequest = apiRequest;
+  }
+  WeatherBloc(){
 
     eventController.stream.listen((event) {
 
