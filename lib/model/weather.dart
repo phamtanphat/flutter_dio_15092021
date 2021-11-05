@@ -1,5 +1,5 @@
 class Weather {
-  late int id;
+  late double id;
   late String main;
   late String description;
   late String icon;

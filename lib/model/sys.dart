@@ -1,9 +1,9 @@
 class Sys {
-  late int type;
-  late int id;
+  late double type;
+  late double id;
   late String country;
-  late int sunrise;
-  late int sunset;
+  late double sunrise;
+  late double sunset;
 
   Sys({required this.type,required this.id,required this.country,required this.sunrise,required this.sunset});
 

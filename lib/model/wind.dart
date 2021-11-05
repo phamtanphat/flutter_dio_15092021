@@ -1,6 +1,6 @@
 class Wind {
   late double speed;
-  late int deg;
+  late double deg;
   late double gust;
 
   Wind({required this.speed,required this.deg,required this.gust});

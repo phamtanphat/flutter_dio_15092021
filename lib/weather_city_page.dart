@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dio_15092021/api_request.dart';
 import 'package:flutter_dio_15092021/bloc/weather_bloc.dart';
+import 'package:flutter_dio_15092021/bloc/weather_event.dart';
+import 'package:flutter_dio_15092021/bloc/weather_state.dart';
 import 'package:provider/provider.dart';
 
 class WeatherCityPage extends StatelessWidget {
@@ -9,30 +11,53 @@ class WeatherCityPage extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (context) => ApiRequest()),
-        ProxyProvider<ApiRequest,WeatherBloc>(
+        ProxyProvider<ApiRequest, WeatherBloc>(
           create: (context) => WeatherBloc(),
-          update: (context ,apiRequest , bloc){
+          update: (context, apiRequest, bloc) {
             bloc!.updateApiRequest(apiRequest);
             return bloc;
           },
         )
       ],
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        constraints: BoxConstraints.expand(),
-        child: Column(
-          children: [
-            searchBox(),
-            Expanded(child: Center(child: Text("Demo")))
-          ],
-        ),
+      child: Consumer<WeatherBloc>(
+        builder: (context, bloc, child) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            constraints: BoxConstraints.expand(),
+            child: Column(
+              children: [
+                searchBox(bloc),
+                Expanded(
+                    child: Center(
+                        child: StreamProvider<WeatherState>.value(
+                            value: bloc.stateController.stream,
+                            initialData: WeatherStateInit(),
+                            child: Consumer<WeatherState>(
+                              builder: (context, state, child){
+                                if (state is WeatherStateFail){
+                                  return Text(state.message);
+                                }
+                                if (state is WeatherStateSuccess){
+                                  return Text(state.forecast.main.temp.toString());
+                                }
+                                return SizedBox();
+                              },
+                            ),
+                        )
+                    ))
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget searchBox() {
+  Widget searchBox(WeatherBloc bloc) {
     return TextField(
-      onSubmitted: (text) {},
+      onSubmitted: (text) {
+        bloc.eventController.sink.add(WeatherEventSearchCity(cityName: text));
+      },
       decoration: InputDecoration(
           suffixIcon: Icon(Icons.search),
           border: OutlineInputBorder(

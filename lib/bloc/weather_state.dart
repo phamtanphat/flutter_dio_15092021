@@ -4,6 +4,10 @@ abstract class WeatherState{
 
 }
 
+class WeatherStateInit extends WeatherState{
+
+}
+
 class WeatherStateSuccess extends WeatherState{
   late Forecast forecast;
 
